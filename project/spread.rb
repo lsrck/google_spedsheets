@@ -1,8 +1,11 @@
 require "google_drive"
 require_relative "scrapping.rb"
+require "csv"
+require 'json'
 
 
 puts $mon_hash
+
 # Creates a session. This will prompt the credential via command line for the
 # first time and save it to config.json file for later usages.
 # See this document to learn how to create config.json:
@@ -28,3 +31,14 @@ $ws.save
 end
 
 print_lines
+
+#Enregistrement en .json
+File.open("emails.json","w") do |f|
+  f.write($mon_hash.to_json)
+end
+
+CSV.open("emails.csv", "wb") do |csv|
+  $mon_hash.each do |l|
+  csv << l
+end
+end
